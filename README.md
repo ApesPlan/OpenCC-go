@@ -4,7 +4,6 @@ golang 简体繁体中文互转
 
 ## go mod demo
 
-(```)
     package main
 
     import (
@@ -38,7 +37,6 @@ golang 简体繁体中文互转
         // }
         // fmt.Println(out)
     }
-(```)
 
 ### 使用包的时候，https://github.com/BYVoid/OpenCC有最新的简体繁体互转的配置文件和字典文件
 资源路径 OpenCC/data/config/*.json 和 OpenCC/data/dictionary/*.txt 
@@ -66,11 +64,8 @@ s2t, t2s, s2tw, tw2s, s2hk, hk2s, s2twp, tw2sp, t2tw, hk2t, t2hk, t2jp, jp2t, tw
 
 
 ### 如果有新添加的 需要到源码包open_cc.go文件中修改如下常量即可：
-(```)
     supportedConversions = "s2t, t2s, s2tw, tw2s, s2hk, hk2s, s2twp, tw2sp, t2tw, hk2t, t2hk, t2jp, jp2t, tw2t"
-(```)
 
-(```)
     conversions          = map[string]struct{}{
         "s2t":   {},
         "t2s":   {},
@@ -87,4 +82,3 @@ s2t, t2s, s2tw, tw2s, s2hk, hk2s, s2twp, tw2sp, t2tw, hk2t, t2hk, t2jp, jp2t, tw
         "jp2t":  {},
         "tw2t":  {},
 	}
-(```)
