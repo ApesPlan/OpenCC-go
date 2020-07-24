@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"os"
+	"path"
 	"path/filepath"
 	"reflect"
+	"runtime"
 	"strings"
 
-	core "github.com/ApesPlan/prefixtree-core"
 	occ "github.com/ApesPlan/prefixtree-OpenCC"
 )
 
@@ -54,8 +54,8 @@ var (
 )
 
 func defaultDir() string {
-	path, _ := os.Getwd()
-	return path
+	_, p, _, _ := runtime.Caller(1)
+	return path.Dir(p)
 }
 
 // Group holds a sequence of dicts
@@ -70,8 +70,8 @@ func (g *Group) String() string {
 
 // OpenCC contains the converter
 type OpenCC struct {
-	Conversion  string // 14种转换方式 简写 s2t, t2s, s2tw, tw2s, s2hk, hk2s, s2twp, tw2sp, t2tw, hk2t, t2hk, t2jp, jp2t, tw2t
-	Description string // 选择的config/*.json文件中的方式名称 eg: s2t.json中 "name": "Simplified Chinese to Traditional Chinese",
+	Conversion  string   // 14种转换方式 简写 s2t, t2s, s2tw, tw2s, s2hk, hk2s, s2twp, tw2sp, t2tw, hk2t, t2hk, t2jp, jp2t, tw2t
+	Description string   // 选择的config/*.json文件中的方式名称 eg: s2t.json中 "name": "Simplified Chinese to Traditional Chinese",
 	DictChains  []*Group // 解析config/*.json文件中的group 将字典文件名称放入切片中 eg: s2t.json中 STPhrases.txt STCharacters.txt
 }
 
@@ -177,7 +177,7 @@ func (cc *OpenCC) addDictChain(d map[string]interface{}) (*Group, error) {
 			if !has {
 				return nil, fmt.Errorf("no file field found")
 			}
-			daDict, err := core.BuildFromFile(filepath.Join(appDir, dictDir, file.(string))) // 获取txt中数据
+			daDict, err := occ.BuildFromFile(filepath.Join(appDir, dictDir, file.(string))) // 获取txt中数据
 			if err != nil {
 				return nil, err
 			}
